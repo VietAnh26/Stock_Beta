@@ -15,11 +15,6 @@ st.title('🌾Lúa Hóa Chứng Khoán')
 
 col1 = st.sidebar
 
-def render_button_style(button_name):
-    if st.session_state.active_button == button_name:
-        return f"<b>{button_name}</b>"
-    return button_name
-
 button1 = col1.button('📊 Thông tin chứng khoán')
 button2 = col1.button('🛠️ Quản trị viên')
 col1.image('ava.jpg')
