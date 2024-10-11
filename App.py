@@ -12,11 +12,14 @@ if 'logged_in' not in st.session_state:
 
 st.logo('logo.jpg',size='large')
 st.title('🌾Lúa Hóa Chứng Khoán')
+st.markdown("<h3 style='color: #f7f796; font-size: 16px;'> Lúa hóa cung cấp miễn phí platform về thông tin các mã chứng khoán giúp nhà đầu tư nhanh chóng có được đánh giá tổng quan về doanh nghiệp.<br><br> Quý nhà đầu tư có thể liên hệ trực tiếp với chuyên viên tư vấn thông qua đường link tại sidebar bên trái!</h3>", unsafe_allow_html=True)
+st.write('---')
 
 col1 = st.sidebar
 
 button1 = col1.button('📊 Thông tin chứng khoán')
 button2 = col1.button('🛠️ Quản trị viên')
+col1.write('---')
 col1.image('ava.jpg')
 col1.markdown("<h3 style='color: blue;'>Nguyễn Việt Hùng - Trưởng phòng tư vấn đầu tư SSI</h3>", unsafe_allow_html=True)
 col1.write('📞SĐT : 0986206379')
