@@ -168,5 +168,5 @@ if st.session_state.active_button == 'button2':
     # Nếu đã đăng nhập, hiển thị nội dung Admin và xóa phần đăng nhập
     if st.session_state.logged_in:
         login_placeholder.empty()  # Xóa toàn bộ phần đăng nhập nếu đã đăng nhập thành công
-        st.write("Chào mừng bạn đến trang Admin!")
+        st.write("Chào mừng bạn đến trang Quản trị viên!")
         # Thêm các chức năng admin tại đây
