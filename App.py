@@ -21,7 +21,7 @@ def render_button_style(button_name):
     return button_name
 
 button1 = col1.button('📊 Thông tin chứng khoán')
-button2 = col1.button('🛠️ Admin')
+button2 = col1.button('🛠️ Quản trị viên')
 col1.image('ava.jpg')
 col1.markdown("<h3 style='color: blue;'>Nguyễn Việt Hùng - Trưởng phòng tư vấn đầu tư SSI</h3>", unsafe_allow_html=True)
 col1.write('📞SĐT : 0986206379')
