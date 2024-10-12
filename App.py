@@ -166,7 +166,7 @@ if st.session_state.active_button == 'button1':
 
             t6.write(news)
     except Exception as e:
-        st.error(f'Vui lòng nhập mã chứng khoán hợp lệ!')
+        st.error(f'Không có dữ liệu cho mã chứng khoán {ck}!')
 
 if st.session_state.active_button == 'button2':
     login_placeholder = st.empty()
