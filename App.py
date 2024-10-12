@@ -88,12 +88,15 @@ if st.session_state.active_button == 'button1':
         gain_ave = gain['diff'].sum() / 14
         loss_ave = loss['diff'].sum() / 14
         rsi = 100 - (100/(1+(gain_ave/(-loss_ave))))
+        rsi = round(rsi,2)
 
         # Tính ROE
         roe = stock.finance.ratio(period='quarter', lang='vi')['Chỉ tiêu khả năng sinh lợi','ROE (%)'].iloc[0] * 100
+        roe = round(roe,2)
 
         # Tính ROA
         roa = stock.finance.ratio(period='quarter', lang='vi')['Chỉ tiêu khả năng sinh lợi','ROA (%)'].iloc[0] * 100
+        roa = round(roa,2)
 
         # Lợi nhuận thuần
         rev = stock.finance.income_statement(period='quarter', lang='vi')['Lợi nhuận thuần'].iloc[0]
