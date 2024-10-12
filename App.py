@@ -14,18 +14,26 @@ st.logo('logo.jpg',size='large')
 st.title('🌾Lúa Hóa Chứng Khoán')
 st.markdown("<h3 style='color: #ed6868; font-size: 16px;'> Lúa hóa cung cấp miễn phí platform về thông tin các mã chứng khoán giúp nhà đầu tư nhanh chóng có được đánh giá tổng quan về doanh nghiệp.<br><br> Quý nhà đầu tư có thể liên hệ trực tiếp với chuyên viên tư vấn thông qua đường link tại sidebar bên trái!</h3>", unsafe_allow_html=True)
 st.write('---')
+minute = datetime.today().minute
 
 col1 = st.sidebar
 
 button1 = col1.button('📊 Thông tin chứng khoán')
 button2 = col1.button('🛠️ Quản trị viên')
 col1.write('---')
-col1.image('ava.jpg')
-col1.markdown("<h3 style='color: blue;'>Nguyễn Việt Hùng - Trưởng phòng tư vấn đầu tư SSI</h3>", unsafe_allow_html=True)
-col1.write('📞SĐT : 0986206379')
-col1.write('Facebook : https://www.facebook.com/hungnv1203')
-col1.write('Zalo : http://zaloapp.com/qr/p/1sm2m48ieznom')
-col1.write('Nhóm cộng đồng lúa hóa : https://zalo.me/g/loktls600')
+
+if 0 <= minute <= 10 or 21 <= minute <= 30 or 41 <= minute <= 50:
+    col1.image('ava.jpg')
+    col1.markdown("<h3 style='color: blue;'>Nguyễn Việt Hùng - Trưởng phòng Tư vấn đầu tư Công ty SSI</h3>", unsafe_allow_html=True)
+    col1.write('📞SĐT : 0986206379')
+    col1.write('Facebook : https://www.facebook.com/hungnv1203')
+    col1.write('Zalo : http://zaloapp.com/qr/p/1sm2m48ieznom')
+    col1.write('Nhóm cộng đồng lúa hóa : https://zalo.me/g/loktls600')
+else:
+    col1.image('Thanh.jpg')
+    col1.markdown("<h3 style='color: blue;'>Nguyễn Quang Thành - Chuyên viên Tư vấn đầu tư Công ty SSI</h3>", unsafe_allow_html=True)
+    col1.write('Zalo : http://zaloapp.com/qr/p/rmo4vohuml4t')
+    col1.write('Facebook : https://www.facebook.com/thanhnguyenssi')
 
 if button1:
     st.session_state.active_button = 'button1'
