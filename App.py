@@ -73,7 +73,7 @@ if st.session_state.active_button == 'button1':
         yesterday = today - timedelta(days=1)
         start = today - timedelta(days=30)
         val = stock.quote.history(start=str(start.date()),end=str(yesterday.date()))
-        vol_ave = val['volume'].iloc[7:].mean()
+        vol_ave = round(val['volume'].iloc[7:].mean(),0)
         vol_ave = '{:,}'.format(vol_ave)
 
         current = stock.quote.intraday(symbol=ck, show_log=False).iloc[-1,1]
