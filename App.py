@@ -37,7 +37,7 @@ if button2:
 if st.session_state.active_button == 'button1':
     try:
         stock = Vnstock().stock(symbol='ACB', source='VCI')
-        b = stock.listing.all_symbols()['ticker']
+        b = stock.listing.all_symbols()['ticker'][1:]
         ck = st.selectbox(label = 'Mã Chứng Khoán',options = b).strip().upper()
         st.info('Vui lòng nhấn Enter sau khi nhập mã và đợi 20s!')
         stock = Vnstock().stock(symbol=str(ck), source='VCI')
