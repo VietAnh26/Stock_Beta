@@ -53,8 +53,8 @@ if st.session_state.active_button == 'button1':
         stock = Vnstock().stock(symbol='ACB', source='VCI')
         b = stock.listing.all_symbols()['ticker'][1:]
         ck = st.selectbox(label = 'Mã Chứng Khoán',options = b).strip().upper()
-        st.info('Vui lòng nhấn Enter sau khi nhập mã và đợi 20s!')
-        with st.spinner("Đang tải dữ liệu chứng khoán... Vui lòng đợi!"):
+        st.info('Vui lòng nhấn Enter sau khi nhập mã và chờ 20s!')
+        with st.spinner("Đang tải dữ liệu chứng khoán... Vui lòng chờ!"):
             stock = Vnstock().stock(symbol=str(ck), source='VCI')
             company = Vnstock().stock(symbol=str(ck), source='TCBS').company
 
