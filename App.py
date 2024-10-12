@@ -48,115 +48,113 @@ if st.session_state.active_button == 'button1':
         b = stock.listing.all_symbols()['ticker'][1:]
         ck = st.selectbox(label = 'Mã Chứng Khoán',options = b).strip().upper()
         st.info('Vui lòng nhấn Enter sau khi nhập mã và đợi 20s!')
-        stock = Vnstock().stock(symbol=str(ck), source='VCI')
-        company = Vnstock().stock(symbol=str(ck), source='TCBS').company
+        with st.spinner("Đang tải dữ liệu chứng khoán... Vui lòng đợi!"):
+            stock = Vnstock().stock(symbol=str(ck), source='VCI')
+            company = Vnstock().stock(symbol=str(ck), source='TCBS').company
 
-        bld = company.officers()
-        bld.columns = ['Tên','Vị trí','Sở hữu(%)']
-        bld['Sở hữu(%)'] = bld['Sở hữu(%)']*100
+            bld = company.officers()
+            bld.columns = ['Tên','Vị trí','Sở hữu(%)']
+            bld['Sở hữu(%)'] = bld['Sở hữu(%)']*100
 
-        cd = company.shareholders()
-        cd.columns = ['Cổ đông','Sở hữu(%)']
-        cd['Sở hữu(%)'] = cd['Sở hữu(%)']*100
+            cd = company.shareholders()
+            cd.columns = ['Cổ đông','Sở hữu(%)']
+            cd['Sở hữu(%)'] = cd['Sở hữu(%)']*100
 
-        sub = company.subsidiaries()
-        sub.columns = ['Công ty','Tỷ lệ sở hữu(%)']
-        sub['Tỷ lệ sở hữu(%)'] = sub['Tỷ lệ sở hữu(%)']*100
+            sub = company.subsidiaries()
+            sub.columns = ['Công ty','Tỷ lệ sở hữu(%)']
+            sub['Tỷ lệ sở hữu(%)'] = sub['Tỷ lệ sở hữu(%)']*100
 
-        events = company.events()[['event_name','notify_date']]
-        events.columns = ['Sự kiện','Ngày thông báo']
+            events = company.events()[['event_name','notify_date']]
+            events.columns = ['Sự kiện','Ngày thông báo']
 
-        news = company.news()[['title','publish_date']]
-        news.columns = ['Tiêu đề','Ngày công bố']
+            news = company.news()[['title','publish_date']]
+            news.columns = ['Tiêu đề','Ngày công bố']
 
-        name = company.profile()['company_name'].iloc[0]
-        a = stock.listing.symbols_by_industries()
+            name = company.profile()['company_name'].iloc[0]
+            a = stock.listing.symbols_by_industries()
 
-        ggs = pd.read_csv('Cau_truyen.csv')
-        ggs = pd.DataFrame(ggs)
-        danh_gia = ggs['Đánh giá'][ggs['Cổ Phiếu'] == str(ck)]
+            ggs = pd.read_csv('Cau_truyen.csv')
+            ggs = pd.DataFrame(ggs)
+            danh_gia = ggs['Đánh giá'][ggs['Cổ Phiếu'] == str(ck)]
 
-        # Tính khối lượng trung bình 15 ngày
-        today = datetime.today()
-        yesterday = today - timedelta(days=1)
-        start = today - timedelta(days=30)
-        val = stock.quote.history(start=str(start.date()),end=str(yesterday.date()))
-        vol_ave = round(val['volume'].iloc[7:].mean(),0)
-        vol_ave = '{:,}'.format(vol_ave)
+            # Tính khối lượng trung bình 15 ngày
+            today = datetime.today()
+            yesterday = today - timedelta(days=1)
+            start = today - timedelta(days=30)
+            val = stock.quote.history(start=str(start.date()),end=str(yesterday.date()))
+            vol_ave = val['volume'].iloc[7:].mean()
+            vol_ave = '{:,}'.format(vol_ave)
 
-        current = stock.quote.intraday(symbol=ck, show_log=False).iloc[-1,1]
-        lag = stock.quote.history(symbol=ck,start=str(start.date()), end=str(yesterday.date())).iloc[-1,4]*1000
-        change = round((current - lag)/(lag)*100,2)
+            current = stock.quote.intraday(symbol=ck, show_log=False).iloc[-1,1]
+            lag = stock.quote.history(symbol=ck,start=str(start.date()), end=str(yesterday.date())).iloc[-1,4]*1000
+            change = round((current - lag)/(lag)*100,2)
 
-        # Tính RSI
-        val['diff'] = val['close'].diff()
-        rsi = val.iloc[8:]
-        gain = rsi[rsi['diff'] > 0]
-        loss = rsi[rsi['diff'] < 0]
-        gain_ave = gain['diff'].sum() / 14
-        loss_ave = loss['diff'].sum() / 14
-        rsi = 100 - (100/(1+(gain_ave/(-loss_ave))))
-        rsi = round(rsi,2)
+            # Tính RSI
+            val['diff'] = val['close'].diff()
+            rsi = val.iloc[8:]
+            gain = rsi[rsi['diff'] > 0]
+            loss = rsi[rsi['diff'] < 0]
+            gain_ave = gain['diff'].sum() / 14
+            loss_ave = loss['diff'].sum() / 14
+            rsi = 100 - (100/(1+(gain_ave/(-loss_ave))))
 
-        # Tính ROE
-        roe = stock.finance.ratio(period='quarter', lang='vi')['Chỉ tiêu khả năng sinh lợi','ROE (%)'].iloc[0] * 100
-        roe = round(roe,2)
+            # Tính ROE
+            roe = stock.finance.ratio(period='quarter', lang='vi')['Chỉ tiêu khả năng sinh lợi','ROE (%)'].iloc[0] * 100
 
-        # Tính ROA
-        roa = stock.finance.ratio(period='quarter', lang='vi')['Chỉ tiêu khả năng sinh lợi','ROA (%)'].iloc[0] * 100
-        roa = round(roa,2)
+            # Tính ROA
+            roa = stock.finance.ratio(period='quarter', lang='vi')['Chỉ tiêu khả năng sinh lợi','ROA (%)'].iloc[0] * 100
 
-        # Lợi nhuận thuần
-        rev = stock.finance.income_statement(period='quarter', lang='vi')['Lợi nhuận thuần'].iloc[0]
-        rev = '{:,}'.format(rev)
+            # Lợi nhuận thuần
+            rev = stock.finance.income_statement(period='quarter', lang='vi')['Lợi nhuận thuần'].iloc[0]
+            rev = '{:,}'.format(rev)
 
-        url = 'https://docs.google.com/spreadsheets/d/1J0KVvPJuyWM2SSUPL4LZcaN2wSwQRJIuw00yjwNUdMk/gviz/tq?tqx=out:csv'
-        ha = pd.read_csv(url)
-        ha = pd.DataFrame(ha)
+            url = 'https://docs.google.com/spreadsheets/d/1J0KVvPJuyWM2SSUPL4LZcaN2wSwQRJIuw00yjwNUdMk/gviz/tq?tqx=out:csv'
+            ha = pd.read_csv(url)
+            ha = pd.DataFrame(ha)
 
 
-        st.markdown(f'<span style="color:green; font-weight:bold;">{name}</span>', unsafe_allow_html=True)
-        st.metric(f'{ck} stock', value = current/1000)
-        if change >= 0:
-            st.markdown(f"<p style='color:green;'>+ {change}%</p>", unsafe_allow_html=True)
-        else:
-            st.markdown(f"<p style='color:red;'>🔻{change}%</p>", unsafe_allow_html=True)
+            st.markdown(f'<span style="color:green; font-weight:bold;">{name}</span>', unsafe_allow_html=True)
+            st.metric(f'{ck} stock', value = current/1000)
+            if change >= 0:
+                st.markdown(f"<p style='color:green;'>+ {change}%</p>", unsafe_allow_html=True)
+            else:
+                st.markdown(f"<p style='color:red;'>🔻{change}%</p>", unsafe_allow_html=True)
 
-        t1,t2,t3,t4,t5,t6 = st.tabs(['⭐ **Thông tin cơ bản**','👨🏻‍💼 **Ban lãnh đạo**','🤝 **Cổ đông**','🏬 **Công ty con, liên kết**','📅 **Sự kiện**','📰 **Tin tức**'])
-        with t1:
-            st.subheader('Chu trình kinh doanh')
-            st.write('⁃ **Ngành** : ',a['icb_name2'][a['symbol'] == ck].iloc[0])
-            if str(ck) in list(ggs['Cổ Phiếu']):
-                st.write('⁃ **Đánh giá ngắn hạn** : ',danh_gia.iloc[0])
-            if str(ck) in ha.iloc[:,0].values:
-                mck = ha[ha.iloc[:,0] == str(ck)]
-                for i in mck.columns[[1,3,4,5,6,7]]:  # Lặp qua các cột trong mck
-                    st.write(f'⁃ **{i}** : ')
-                    text = mck[i].iloc[0]  # Lấy giá trị từ hàng đầu tiên
-                    st.text(f'     {text}')
+            t1,t2,t3,t4,t5,t6 = st.tabs(['⭐ **Thông tin cơ bản**','👨🏻‍💼 **Ban lãnh đạo**','🤝 **Cổ đông**','🏬 **Công ty con, liên kết**','📅 **Sự kiện**','📰 **Tin tức**'])
+            with t1:
+                st.subheader('Chu trình kinh doanh')
+                st.write('⁃ **Ngành** : ',a['icb_name2'][a['symbol'] == ck].iloc[0])
+                if str(ck) in list(ggs['Cổ Phiếu']):
+                    st.write('⁃ **Đánh giá ngắn hạn** : ',danh_gia.iloc[0])
+                if str(ck) in ha.iloc[:,0].values:
+                    mck = ha[ha.iloc[:,0] == str(ck)]
+                    for i in mck.columns[[1,3,4,5,6,7]]:  # Lặp qua các cột trong mck
+                        st.write(f'⁃ **{i}** : ')
+                        text = mck[i].iloc[0]  # Lấy giá trị từ hàng đầu tiên
+                        st.text(f'     {text}')
 
-            st.subheader('Chỉ số cơ bản')
-            st.write('Giá hiện tại : ',int(current),'vnđ')
+                st.subheader('Chỉ số cơ bản')
+                st.write('Giá hiện tại : ',int(current),'vnđ')
 
-            st.write('Khối lượng trung bình 15 ngày : ',vol_ave)
+                st.write('Khối lượng trung bình 15 ngày : ',vol_ave)
 
-            st.write('Sức mạnh giá : ',rsi)
+                st.write('Sức mạnh giá : ',rsi)
 
-            st.write('ROE(Q) : ',roe,'%')
+                st.write('ROE(Q) : ',roe,'%')
 
-            st.write('ROA(Q) : ',roa,'%')
+                st.write('ROA(Q) : ',roa,'%')
 
-            st.write('Lợi nhuận thuần(Q) : ',rev,'vnđ')
+                st.write('Lợi nhuận thuần(Q) : ',rev,'vnđ')
 
-        t2.write(bld)
+            t2.write(bld)
 
-        t3.write(cd)
+            t3.write(cd)
 
-        t4.write(sub)
+            t4.write(sub)
 
-        t5.write(events)
+            t5.write(events)
 
-        t6.write(news)
+            t6.write(news)
     except Exception as e:
         st.error(f'Đã xảy ra lỗi! Vui lòng nhập mã chứng khoán hợp lệ! ')
 
