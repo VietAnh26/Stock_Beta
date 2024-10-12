@@ -38,6 +38,7 @@ if 0 <= minute <= 10 or 21 <= minute <= 30 or 41 <= minute <= 50:
 else:
     col1.image('Thanh.jpg')
     col1.markdown("<h3 style='color: blue;'>Nguyễn Quang Thành - Chuyên viên Tư vấn đầu tư Công ty SSI</h3>", unsafe_allow_html=True)
+    col1.write('📞SĐT : 0974446582')
     col1.write('Zalo : http://zaloapp.com/qr/p/rmo4vohuml4t')
     col1.write('Facebook : https://www.facebook.com/thanhnguyenssi')
 
