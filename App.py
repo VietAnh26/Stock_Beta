@@ -35,8 +35,8 @@ if button2:
 
 # Xử lý nếu button1 được chọn (mặc định là button1 khi vừa vào)
 if st.session_state.active_button == 'button1':
-    ck = st.text_input('Mã Chứng Khoán',value='ACB').upper()
-    st.info('Vui lòng nhấn Enter sau khi nhập mã!')
+    ck = st.text_input('Mã Chứng Khoán',value='ACB').strip().upper()
+    st.info('Vui lòng nhấn Enter sau khi nhập mã và đợi 20s!')
     stock = Vnstock().stock(symbol=str(ck), source='VCI')
     company = Vnstock().stock(symbol=str(ck), source='TCBS').company
     
