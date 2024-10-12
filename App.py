@@ -4,6 +4,12 @@ import numpy as np
 from vnstock3 import Vnstock
 from datetime import datetime, timedelta
 
+st.set_page_config(
+    page_title="Lúa Hóa Chứng Khoán",
+    page_icon="🌾",
+    layout="wide",
+)
+
 if 'active_button' not in st.session_state:
     st.session_state.active_button = 'button1'
     
@@ -82,7 +88,7 @@ if st.session_state.active_button == 'button1':
             yesterday = today - timedelta(days=1)
             start = today - timedelta(days=30)
             val = stock.quote.history(start=str(start.date()),end=str(yesterday.date()))
-            vol_ave = val['volume'].iloc[7:].mean()
+            vol_ave = round(val['volume'].iloc[7:].mean(),0)
             vol_ave = '{:,}'.format(vol_ave)
 
             current = stock.quote.intraday(symbol=ck, show_log=False).iloc[-1,1]
@@ -97,12 +103,15 @@ if st.session_state.active_button == 'button1':
             gain_ave = gain['diff'].sum() / 14
             loss_ave = loss['diff'].sum() / 14
             rsi = 100 - (100/(1+(gain_ave/(-loss_ave))))
+            rsi = round(rsi,2)
 
             # Tính ROE
             roe = stock.finance.ratio(period='quarter', lang='vi')['Chỉ tiêu khả năng sinh lợi','ROE (%)'].iloc[0] * 100
+            roe = round(roe,2)
 
             # Tính ROA
             roa = stock.finance.ratio(period='quarter', lang='vi')['Chỉ tiêu khả năng sinh lợi','ROA (%)'].iloc[0] * 100
+            roa = round(roa,2)
 
             # Lợi nhuận thuần
             rev = stock.finance.income_statement(period='quarter', lang='vi')['Lợi nhuận thuần'].iloc[0]
@@ -156,7 +165,7 @@ if st.session_state.active_button == 'button1':
 
             t6.write(news)
     except Exception as e:
-        st.error(f'Đã xảy ra lỗi! Vui lòng nhập mã chứng khoán hợp lệ! ')
+        st.error(f'Vui lòng nhập mã chứng khoán hợp lệ!')
 
 if st.session_state.active_button == 'button2':
     login_placeholder = st.empty()
