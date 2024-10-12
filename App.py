@@ -71,7 +71,6 @@ if st.session_state.active_button == 'button1':
     start = today - timedelta(days=30)
     val = stock.quote.history(start=str(start.date()),end=str(yesterday.date()))
     vol_ave = val['volume'].iloc[7:]
-    vol_ave = '{:,}'.format(vol_ave)
 
     current = stock.quote.intraday(symbol=ck, show_log=False).iloc[-1,1]
     lag = stock.quote.history(symbol=ck,start=str(start.date()), end=str(yesterday.date())).iloc[-1,4]*1000
@@ -94,7 +93,6 @@ if st.session_state.active_button == 'button1':
 
     # Lợi nhuận thuần
     rev = stock.finance.income_statement(period='quarter', lang='vi')['Lợi nhuận thuần'].iloc[0]
-    rev = '{:,}'.format(rev)
 
     url = 'https://docs.google.com/spreadsheets/d/1J0KVvPJuyWM2SSUPL4LZcaN2wSwQRJIuw00yjwNUdMk/gviz/tq?tqx=out:csv'
     ha = pd.read_csv(url)
@@ -122,7 +120,7 @@ if st.session_state.active_button == 'button1':
                 st.text(f'     {text}')
 
         st.subheader('Chỉ số cơ bản')
-        st.write('Giá hiện tại : ',int(b['price'].iloc[-1]),'vnđ')
+        st.write('Giá hiện tại : ',int(current),'vnđ')
 
         st.write('Khối lượng trung bình 15 ngày : ',round(vol_ave.mean(),0))
 
