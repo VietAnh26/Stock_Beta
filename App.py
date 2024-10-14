@@ -30,14 +30,14 @@ col1.write('---')
 
 if 0 <= minute <= 10 or 21 <= minute <= 30 or 41 <= minute <= 50:
     col1.image('ava.jpg')
-    col1.markdown("<h3 style='color: blue;'>Nguyễn Việt Hùng - Trưởng phòng Tư vấn đầu tư Công ty SSI</h3>", unsafe_allow_html=True)
+    col1.markdown("<h3 style='color: #5793f2;'>Nguyễn Việt Hùng - Trưởng phòng Tư vấn đầu tư Công ty SSI</h3>", unsafe_allow_html=True)
     col1.write('📞SĐT : 0986206379')
     col1.write('Facebook : https://www.facebook.com/hungnv1203')
     col1.write('Zalo : http://zaloapp.com/qr/p/1sm2m48ieznom')
     col1.write('Nhóm cộng đồng lúa hóa : https://zalo.me/g/loktls600')
 else:
     col1.image('Thanh.jpg')
-    col1.markdown("<h3 style='color: blue;'>Nguyễn Quang Thành - Chuyên viên Tư vấn đầu tư Công ty SSI</h3>", unsafe_allow_html=True)
+    col1.markdown("<h3 style='color: #5793f2;'>Nguyễn Quang Thành - Chuyên viên Tư vấn đầu tư Công ty SSI</h3>", unsafe_allow_html=True)
     col1.write('📞SĐT : 0974446582')
     col1.write('Zalo : http://zaloapp.com/qr/p/rmo4vohuml4t')
     col1.write('Facebook : https://www.facebook.com/thanhnguyenssi')
@@ -118,7 +118,7 @@ if st.session_state.active_button == 'button1':
             rev = stock.finance.income_statement(period='quarter', lang='vi')['Lợi nhuận thuần'].iloc[0]
             rev = '{:,}'.format(rev)
 
-            url = 'https://docs.google.com/spreadsheets/d/1J0KVvPJuyWM2SSUPL4LZcaN2wSwQRJIuw00yjwNUdMk/gviz/tq?tqx=out:csv'
+            url = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSPCc3dalt0t1wIKkZtuIZ3EezJCIKsT8FnnSI7EqUlGNnxDQ3hDJW66-VBgXd59lajDNZEt2leRveP/pub?output=csv'
             ha = pd.read_csv(url)
             ha = pd.DataFrame(ha)
 
