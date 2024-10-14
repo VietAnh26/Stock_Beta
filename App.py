@@ -126,8 +126,10 @@ if st.session_state.active_button == 'button1':
             st.markdown(f'<span style="color:green; font-weight:bold;">{name}</span>', unsafe_allow_html=True)
             st.metric(f'{ck} stock', value = current/1000)
             if change >= 0:
+                change = str(change)
                 st.markdown(f"<p style='color:green;'>+ {change}%</p>", unsafe_allow_html=True)
             else:
+                change = str(change)
                 st.markdown(f"<p style='color:red;'>🔻{change}%</p>", unsafe_allow_html=True)
 
             t1,t2,t3,t4,t5,t6 = st.tabs(['⭐ **Thông tin cơ bản**','👨🏻‍💼 **Ban lãnh đạo**','🤝 **Cổ đông**','🏬 **Công ty con, liên kết**','📅 **Sự kiện**','📰 **Tin tức**'])
