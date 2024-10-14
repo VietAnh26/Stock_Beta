@@ -134,7 +134,7 @@ if st.session_state.active_button == 'button1':
 
             t1,t2,t3,t4,t5,t6 = st.tabs(['⭐ **Thông tin cơ bản**','👨🏻‍💼 **Ban lãnh đạo**','🤝 **Cổ đông**','🏬 **Công ty con, liên kết**','📅 **Sự kiện**','📰 **Tin tức**'])
             with t1:
-                st.subheader('Chu trình kinh doanh')
+                st.subheader('Hình thức kinh doanh')
                 st.write('⁃ **Ngành** : ',a['icb_name2'][a['symbol'] == ck].iloc[0])
                 if str(ck) in list(ggs['Cổ Phiếu']):
                     st.write('⁃ **Đánh giá ngắn hạn** : ',danh_gia.iloc[0])
