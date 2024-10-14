@@ -125,12 +125,11 @@ if st.session_state.active_button == 'button1':
 
             st.markdown(f'<span style="color:green; font-weight:bold;">{name}</span>', unsafe_allow_html=True)
             st.metric(f'{ck} stock', value = current/1000)
+            st.write(change)
             if change >= 0:
-                st.write(0.25)
                 change = str(change)
                 st.markdown(f"<p style='color:green;'>+ {change}%</p>", unsafe_allow_html=True)
             else:
-                st.write(-0.78)
                 change = str(change)
                 st.markdown(f"<p style='color:red;'>🔻{change}%</p>", unsafe_allow_html=True)
 
